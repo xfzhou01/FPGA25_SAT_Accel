@@ -1,4 +1,4 @@
-set dirname "/scratch/milo168/micro2024_8"
+set dirname "/home/x/xiaofeng-zhou/FPGA25_SAT_Accel"
 report_qor_suggestions -name qor_suggestions -max_paths 100 -max_strategies 3
 report_qor_suggestions -of_objects [get_qor_suggestions]
 write_qor_suggestions -of_objects [get_qor_suggestions] -file $dirname/qor_suggestions/rqs_report.rqs -strategy_dir $dirname/qor_suggestions -force

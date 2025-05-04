@@ -1,4 +1,5 @@
 #include "discover.h"
+#define FPGA_HW
 
 bool seenSecond = false;
 void discover(hls::stream<colorAssignment>& toCommitStream, hls::stream<bcpPacket>& toDecide,

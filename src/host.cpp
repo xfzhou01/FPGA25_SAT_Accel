@@ -392,6 +392,8 @@ bool solve(std::string xclBinFile, std::string inputFilePath, std::string output
     cl::Kernel pqHandlerKernel;
     cl::Kernel messageKernel;
 
+    std::cout << "XF: " << devices.size() << " devices found\n";
+
 	for (unsigned int i = 0; i < devices.size(); i++) {
 		device = devices[i];
 		// Creating Context and Command Queue for selected Device
@@ -408,13 +410,13 @@ bool solve(std::string xclBinFile, std::string inputFilePath, std::string output
 		}
 		std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
         
-		#ifndef HW_SIM
-		if (device.getInfo<CL_DEVICE_NAME>() != "xilinx_u55c_gen3x16_xdma_base_3") {
-		#else
-		if (device.getInfo<CL_DEVICE_NAME>() != "xilinx_u55c_gen3x16_xdma_3_202210_1") {
-		#endif
-			continue;
-		}
+		// #ifndef HW_SIM
+		// if (device.getInfo<CL_DEVICE_NAME>() != "xilinx_u55c_gen3x16_xdma_base_3") {
+		// #else
+		// if (device.getInfo<CL_DEVICE_NAME>() != "xilinx_u55c_gen3x16_xdma_3_202210_1") {
+		// #endif
+		// 	continue;
+		// }
 
 		cl::Program program(context, { device }, bins, NULL, &err);
 	

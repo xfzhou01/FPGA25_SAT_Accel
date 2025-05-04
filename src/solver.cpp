@@ -116,6 +116,12 @@ void solver(clsStatePCIE* clsStates, ap_int<512>* litStore, lit* answerStack,
 	#pragma HLS INTERFACE s_axilite port=lmd
 	#pragma HLS INTERFACE s_axilite port=miscCounters
 
+    #pragma HLS INTERFACE axis port=clauseStoreOutputStream2
+    #pragma HLS INTERFACE axis port=clauseStoreOutputStream1
+    #pragma HLS INTERFACE axis port=locationOutputStream
+    #pragma HLS INTERFACE axis port=clauseStoreInputStream1
+    #pragma HLS INTERFACE axis port=clauseStoreInputStream2
+
 	#pragma HLS INTERFACE s_axilite port=return
 
     unsigned int literalElements = miscCounters[0];
@@ -131,14 +137,14 @@ void solver(clsStatePCIE* clsStates, ap_int<512>* litStore, lit* answerStack,
     #pragma HLS bind_storage variable=mAnswerStack type=RAM_S2P impl=BRAM latency=1
 
     ap_uint<512> mLitStore[_FPGA_MAX_LITERAL_ELEMENTS/16];
-    #pragma HLS bind_storage variable=mLitStore type=RAM_S2P impl=URAM latency=1
+    #pragma HLS bind_storage variable=mLitStore type=RAM_S2P impl=URAM latency=1 // can switch to BRAM
 
     literalMetaData mlmd[_FPGA_MAX_LITERALS];
     #pragma HLS aggregate variable=mlmd compact=auto
     #pragma HLS bind_storage variable=mlmd type=RAM_S2P impl=URAM latency=1
 
     cls unitByCls[_FPGA_MAX_LITERALS];
-    #pragma HLS bind_storage variable=unitByCls type=RAM_T2P impl=auto latency=1
+    #pragma HLS bind_storage variable=unitByCls type=RAM_T2P latency=1 impl=auto
 
     literalMinimizeMetaData mlmmd[_FPGA_PARALLEL_MINIMIZE][_FPGA_MAX_LITERALS];
     #pragma HLS array_partition variable=mlmmd dim=1 complete
@@ -149,7 +155,7 @@ void solver(clsStatePCIE* clsStates, ap_int<512>* litStore, lit* answerStack,
     lit literalCommit;
 
     clsState mClsStates[_FPGA_CLS_STATES_PARTITION][_FPGA_MAX_CLAUSES/_FPGA_CLS_STATES_PARTITION];
-    #pragma HLS aggregate variable=mClsStates compact=auto
+    #pragma HLS aggregate variable=mClsStates //compact=auto
     #pragma HLS array_partition variable=mClsStates dim=1 complete
     #pragma HLS bind_storage variable=mClsStates type=RAM_S2P impl=URAM latency=2
 

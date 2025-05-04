@@ -1,4 +1,4 @@
-set dirname "/scratch/milo168/micro2024_8"
+set dirname "/home/x/xiaofeng-zhou/FPGA25_SAT_Accel"
 
 set NLOOPS 5 
 set TNS_PREV 0

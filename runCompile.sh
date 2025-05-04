@@ -21,7 +21,8 @@ EMU_TYPE=sw_emu
 LIB_EMU_TYPE=-lxrt_swemu
 VER=2022.2
 EN_PROF=""
-PLATFORM=xilinx_u55c_gen3x16_xdma_3_202210_1
+PLATFORM=xilinx_u50_gen3x16_xdma_5_202210_1
+PLATFORM=xilinx_u280_gen3x16_xdma_1_202211_1
 
 OPENCL_FILES_CPP="host.cpp xcl2.cpp"
 OPENCL_FILES_OBJ="host.o xcl2.o"
@@ -43,16 +44,16 @@ VITIS_HLS_KERNEL[4]="timer"
 VITIS_HLS_KERNEL[5]="pqHandler"
 VITIS_HLS_KERNEL[6]="message"
 
-VITIS_INCLUDE="/opt/xilinx/tools/Vitis_HLS/$VER/include"
+VITIS_INCLUDE="/home/x4/Software/Xilinx/Vitis_HLS/2022.2/include"
 XRT_INCLUDE="/opt/xilinx/xrt/include"
 
-DATA_PATH="/home/milo168/Desktop/SAT_workspace/SAT_test_cases"
+DATA_PATH="/home/x/xiaofeng-zhou/FPGA25_SAT_Accel/SAT_test_cases"
 
 CONNECTIVITY="k2k.cfg"
 
 #TODO: YOU MUST POINT TO YOUR XRT AND VITIS_HLS INSTALL PATH
 source /opt/xilinx/xrt/setup.sh
-source /opt/xilinx/tools/Vitis_HLS/$VER/settings64.sh
+source /home/x4/Software/Xilinx/Vitis_HLS/2022.2/settings64.sh
 
 compile_opencl(){
 	IS_HW_SIM="-DHW_SIM"
@@ -84,7 +85,7 @@ compile_opencl(){
 	if [ $? -ne 0 ]
 	then
     		echo -e "${RD}OpenCL section failed to compile ${NC}"
-       		exit 1
+       		# exit 1
 	fi
 
 	cd obj
@@ -94,7 +95,7 @@ compile_opencl(){
 	if [ $? -ne 0 ]
 	then
 		echo -e "${RD}OpenCL section failed to link ${NC}"
-		exit 1
+		# exit 1
 	fi
 
 	cd ../../
@@ -222,11 +223,11 @@ run_program(){
 if [[ $COMMAND == compilecl ]]
 then
 
-	EMU_TYPE=sw_emu
-	compile_opencl
+	# EMU_TYPE=sw_emu
+	# compile_opencl
 
-	EMU_TYPE=hw_emu
-	compile_opencl
+	# EMU_TYPE=hw_emu
+	# compile_opencl
 
 	EMU_TYPE=real
 	compile_opencl
@@ -337,5 +338,5 @@ then
 	echo -e "${CY}Copying Vitis HLS reports for ${VITIS_HLS_KERNEL[6]} kernel... ${NC}"
 	cp _x/workload-${VITIS_HLS_KERNEL[6]}-hw/${VITIS_HLS_KERNEL[6]}/${VITIS_HLS_KERNEL[6]}/solution/syn/report/*.rpt FPGArpt/
 
-	exit 0
+	# exit 0
 fi
